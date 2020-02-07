@@ -1,0 +1,8 @@
+# Ignore python cache
+__pycache__
+# Ignore directories created by the utility / build process
+dist
+jom
+archives
+qt-everywhere-*
+*.build

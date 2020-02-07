@@ -1,0 +1,98 @@
+release: 5.14.1
+platform: win32-msvc
+name: dolphin.amd64
+
+compiler:
+    name: visual_studio
+    version: 2019
+    edition: Community
+
+configure:
+    nomake:
+        - examples
+        - tests
+    skip:
+        - qt3d
+        - qtactiveqt
+        - qtandroidextras
+        - qtcharts
+        - qtconnectivity
+        - qtdatavis3d
+        - qtdoc
+        - qtgamepad
+        - qtgraphicaleffects
+        - qtlocation
+        - qtlottie
+        - qtmacextras
+        - qtmultimedia
+        - qtnetworkauth
+        - qtpurchasing
+        - qtquick3d
+        - qtquickcontrols
+        - qtquicktimeline
+        - qtremoteobjects
+        - qtscript
+        - qtscxml
+        - qtsensors
+        - qtserialbus
+        - qtserialport
+        - qtspeech
+        - qtsvg
+        - qttools
+        - qtwayland
+        - qtwebchannel
+        - qtwebengine
+        - qtwebsockets
+        - qtwebview
+        - qtx11extras
+        - qtxmlpatterns
+    feature:
+        accessibility: false
+        bearermanagement: false
+        concurrent: false
+        dbus: false
+        imageformat_png: false
+        imageformat_bmp: false
+        qml-devtools: false
+        qml-worker-script: false
+        quick-particles: false
+        quick-path: false
+        sql-odbc: false
+        sql-sqlite: false
+        tiff: false
+        vulkan: false
+        webp: false
+
+postprocess:
+    delete:
+        - doc
+        - bin/Qt5Network.dll
+        - bin/Qt5Networkd.dll
+        - bin/Qt5PrintSupport.dll
+        - bin/Qt5PrintSupportd.dll
+        - bin/Qt5QmlModels.dll
+        - bin/Qt5QmlModelsd.dll
+        - bin/Qt5QuickTest.dll
+        - bin/Qt5QuickTestd.dll
+        - bin/Qt5Xml.dll
+        - bin/Qt5Xmld.dll
+        - bin/qvkgen.exe
+        - include/QtNetwork
+        - include/QtPrintSupport
+        - include/QtQmlDebug
+        - include/QtQmlModels
+        - include/QtQuickTest
+        - include/Qt5Xml
+        - lib/cmake/Qt5Network
+        - lib/cmake/Qt5PrintSupport
+        - lib/cmake/Qt5QmlDebug
+        - lib/cmake/Qt5QmlModels
+        - lib/cmake/Qt5QuickTest
+        - lib/cmake/Qt5Xml
+        - plugins/generic
+        - plugins/printsupport
+        - plugins/qmltooling
+        - qml/QtTest
+    delete_regex:
+        - .*\.prl
+        - .*\.pdb
