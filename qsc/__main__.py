@@ -112,6 +112,7 @@ if __name__ == "__main__":
         
         os.putenv("VS_VERSION", compiler["version"])
         os.putenv("VS_EDITION", compiler["edition"])
+        os.putenv("VCVARSALL", compiler.get("vcvarsall", ""))
         os.putenv("USE_VS", "1")
     else:
         print("Unknown compiler '{}'".format(compiler.name))

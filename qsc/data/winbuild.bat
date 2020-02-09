@@ -17,8 +17,13 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 IF "%USE_VS%"=="1" ( 
-    call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
+	if "%VCVARSALL%"=="" (
+		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
+	) else (
+		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\VC\Auxiliary\Build\vcvarsall.bat" %VCVARSALL%
+	)
 )
+
 
 :configure
 call ..\qt-everywhere-src-%RELEASE%\configure.bat ^
