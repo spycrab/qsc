@@ -119,6 +119,7 @@ if __name__ == "__main__":
         exit(1)
     
     output_path = os.path.join(basedir, "dist", config["name"]+"_"+release)
+    os.makedirs(output_path, exist_ok=True)
     
     os.putenv("RELEASE", release)
     os.putenv("OUTNAME", output_path)
