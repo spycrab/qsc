@@ -64,8 +64,8 @@ def install_jom():
 
     download_file(url, download_path)
 
-    with zipfile.ZipFile(download_path, "r") as zip:
-        zip.extract("jom.exe")
+    with zipfile.ZipFile(download_path, "r") as f:
+        f.extract("jom.exe")
         
     os.remove("jom.zip")
     os.chdir("..")
