@@ -18,10 +18,9 @@
 """All the download related stuff goes here"""
 
 import os
-
-import requests
-
 import qsc
+import requests
+import shutil
 
 def source_url(release):
     base_release = release[:release.rfind('.')]
