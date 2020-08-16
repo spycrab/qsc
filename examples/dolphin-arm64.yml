@@ -50,7 +50,6 @@ configure:
         - qtx11extras
         - qtxmlpatterns
     feature:
-        accessibility: false
         bearermanagement: false
         concurrent: false
         dbus: false
