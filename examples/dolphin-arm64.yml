@@ -1,6 +1,6 @@
-release: 5.14.1
+release: 5.15.0
 cross: true
-hostbindir: C:\Users\max\Desktop\qsc\dist\dolphin.amd64_5.14.1\bin
+hostbindir: ..\dist\dolphin.amd64_5.15.0\bin
 platform: win32-arm64-msvc2017
 name: dolphin.arm64
 

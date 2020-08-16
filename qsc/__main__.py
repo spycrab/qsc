@@ -128,7 +128,8 @@ if __name__ == "__main__":
     
     # Platform
     if config.get("cross", False) == "true":
-        platform = "-xplatform "+config["platform"]+ " -external-hostbindir "+config["hostbindir"]
+        hostbindir = os.path.abspath(config["hostbindir"])
+        platform = "-xplatform "+config["platform"]+ " -external-hostbindir "+hostbindir
     elif config.get("platform", False):
         platform = "-platform "+config["platform"]
 
