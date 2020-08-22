@@ -64,8 +64,8 @@ def install_jom():
 
     download_file(url, download_path)
 
-    with zipfile.ZipFile(download_path, "r") as zip:
-        zip.extract("jom.exe")
+    with zipfile.ZipFile(download_path, "r") as f:
+        f.extract("jom.exe")
         
     os.remove("jom.zip")
     os.chdir("..")
@@ -119,6 +119,7 @@ if __name__ == "__main__":
         exit(1)
     
     output_path = os.path.join(basedir, "dist", config["name"]+"_"+release)
+    os.makedirs(output_path, exist_ok=True)
     
     os.putenv("RELEASE", release)
     os.putenv("OUTNAME", output_path)
@@ -127,7 +128,8 @@ if __name__ == "__main__":
     
     # Platform
     if config.get("cross", False) == "true":
-        platform = "-xplatform "+config["platform"]+ " -external-hostbindir "+config["hostbindir"]
+        hostbindir = os.path.abspath(config["hostbindir"])
+        platform = "-xplatform "+config["platform"]+ " -external-hostbindir "+hostbindir
     elif config.get("platform", False):
         platform = "-platform "+config["platform"]
 

@@ -22,9 +22,9 @@ import shutil
 import re
 
 
-def postprocess_dir(dir, config):
+def postprocess_dir(basedir, config):
 
-    os.chdir(dir)
+    os.chdir(basedir)
 
     entries = [str(x) for x in Path(".").rglob("*")]
 
