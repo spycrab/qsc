@@ -18,14 +18,14 @@
 """Extracting archives and stuff"""
 
 import os
-import zipfile
+import tarfile
 
 import qsc
 
 def extract_release(release):
     name = "qt-everywhere-src-{}".format(release)
 
-    zip_path = os.path.join("archives", name+".zip")
+    tar_path = os.path.join("archives", name+".tar.xz")
     
     print("Extracting...", end="", flush=True)
     
@@ -33,7 +33,7 @@ def extract_release(release):
         print("Cached")
         return
     
-    with zipfile.ZipFile(zip_path, "r") as zip:
-        zip.extractall(".")
+    with tarfile.open(tar_path) as tar:
+        tar.extractall(".")
 
     print("Done")

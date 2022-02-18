@@ -29,7 +29,7 @@ WINBUILD_PATH = os.path.join(DATA_PATH, "winbuild.bat")
 
 # Settings
 REPO_BASE_URL = "https://download.qt.io/"
-REPO_SRC_PATH = "{0}/official_releases/qt/{1}/{2}/single/qt-everywhere-src-{2}.zip"
+REPO_SRC_PATH = "{0}/official_releases/qt/{1}/{2}/single/qt-everywhere-src-{2}.tar.xz"
 REPO_JOM_PATH = "{0}/official_releases/jom/jom.zip"
 
 USE_CACHE = True
