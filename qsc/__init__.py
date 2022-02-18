@@ -21,6 +21,9 @@ import platform
 def is_windows():
     return platform.system() == "Windows"
 
+def is_linux():
+    return platform.system() == "Linux"
+
 # Paths
 BASE_PATH = os.path.dirname(__file__)
 DATA_PATH = os.path.join(BASE_PATH, "data")
