@@ -176,6 +176,8 @@ if __name__ == "__main__":
     
     if qsc.is_windows():
         os.system(qsc.WINBUILD_PATH)
+    elif qsc.is_linux():
+        os.system(qsc.LINBUILD_PATH)
     else:
         print("Not supported yet, sorry :/")
         exit(1)
