@@ -1,5 +1,6 @@
+#!/bin/bash
 # QSC (Qt SDK Creator) - A tool for automatically downloading, building and stripping down Qt
-# Copyright (C) 2020 spycrab0
+# Copyright (C) 2020 OatmealDome
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,27 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+set -e
 
-import os
-import platform
+../qt-everywhere-src-$RELEASE/configure \
+ -opensource -confirm-license \
+ -nomake examples -nomake tests \
+ $QT_CONFIGURE_OPTIONS \
+ -prefix $OUTNAME \
+ $QT_PLATFORM
 
-def is_windows():
-    return platform.system() == "Windows"
+make -j4
 
-def is_linux():
-    return platform.system() == "Linux"
-
-# Paths
-BASE_PATH = os.path.dirname(__file__)
-DATA_PATH = os.path.join(BASE_PATH, "data")
-
-WINBUILD_PATH = os.path.join(DATA_PATH, "winbuild.bat")
-LINBUILD_PATH = os.path.join(DATA_PATH, "linbuild.sh")
-
-# Settings
-REPO_BASE_URL = "https://download.qt.io/"
-REPO_SRC_PATH = "{0}/official_releases/qt/{1}/{2}/single/qt-everywhere-src-{2}.tar.xz"
-REPO_JOM_PATH = "{0}/official_releases/jom/jom.zip"
-
-USE_CACHE = True
-USE_JOM = True
+make install
