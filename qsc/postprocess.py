@@ -20,6 +20,7 @@ import os
 from pathlib import Path
 import shutil
 import re
+import tarfile
 
 
 def postprocess_dir(basedir, config):
@@ -33,24 +34,32 @@ def postprocess_dir(basedir, config):
         delete = delete.replace("/", os.sep)
         if delete in entries:
             print("Deleting {}...".format(delete))
-            
+
             entries.remove(delete)
-            
+
             if os.path.isdir(delete):
                 shutil.rmtree(delete)
             elif os.path.isfile(delete):
                 os.remove(delete)
-    
+
     # delete_regex
     for delete_regex in config.get("delete_regex", []):
         for e in entries:
             if not os.path.exists(e):
                 continue
-            
+
             if re.fullmatch(delete_regex, e):
                 print("Deleting {} based on regex '{}'...".format(e, delete_regex))
-                
+
                 if os.path.isdir(e):
                     shutil.rmtree(e)
                 elif os.path.isfile(e):
                     os.remove(e)
+
+    if config.get('archive_pdbs', False):
+        with tarfile.open('pdbs.tar.xz', 'w:xz') as archive:
+            print('archiving pdbs...')
+            for path in Path(".").rglob("*.pdb"):
+                    print(path)
+                    archive.add(path)
+                    path.unlink()

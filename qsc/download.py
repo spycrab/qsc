@@ -17,7 +17,7 @@
 
 """All the download related stuff goes here"""
 
-import os
+from pathlib import Path
 import qsc
 import requests
 import shutil
@@ -31,20 +31,19 @@ def download_file(url, path):
         with open(path, "wb") as file:
             shutil.copyfileobj(request.raw, file)
 
-def download_release(release):    
+def download_release(release):
     url = source_url(release)
-    download_path = os.path.join("archives", "qt-everywhere-src-{}.zip".format(release))
+    archive_dir = Path("archives")
+    download_path = archive_dir / f"qt-everywhere-src-{release}.tar.xz"
 
-    print("Downloading Qt {}...".format(release), end="", flush=True)
-    
-    if not os.path.isdir("archives"):
-        os.mkdir("archives")
-    
-    if qsc.USE_CACHE and os.path.isfile(download_path):
+    print(f"Downloading Qt {release}...", end="", flush=True)
+
+    archive_dir.mkdir(exist_ok=True)
+
+    if qsc.USE_CACHE and download_path.is_file():
         print("Cached")
         return
-    
-    download_file(url, download_path)
-            
-    print("Done")
 
+    download_file(url, download_path)
+
+    print("Done")

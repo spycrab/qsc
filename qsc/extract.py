@@ -17,23 +17,23 @@
 
 """Extracting archives and stuff"""
 
-import os
-import zipfile
+from pathlib import Path
+import tarfile
 
 import qsc
 
 def extract_release(release):
-    name = "qt-everywhere-src-{}".format(release)
+    name = f"qt-everywhere-src-{release}"
 
-    zip_path = os.path.join("archives", name+".zip")
-    
+    archive_path = Path("archives") / (name + ".tar.xz")
+
     print("Extracting...", end="", flush=True)
-    
-    if qsc.USE_CACHE and os.path.isdir(name):
+
+    if qsc.USE_CACHE and Path(name).is_dir():
         print("Cached")
         return
-    
-    with zipfile.ZipFile(zip_path, "r") as zip:
-        zip.extractall(".")
+
+    with tarfile.open(archive_path) as f:
+        f.extractall(".")
 
     print("Done")

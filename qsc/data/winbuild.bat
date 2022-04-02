@@ -17,11 +17,11 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 IF "%USE_VS%"=="1" ( 
-	if "%VCVARSALL%"=="" (
-		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
-	) else (
-		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\VC\Auxiliary\Build\vcvarsall.bat" %VCVARSALL%
-	)
+     if "%VCVARSALL%"=="" (
+          call "%PROGRAMFILES%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
+     ) else (
+          call "%PROGRAMFILES%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\VC\Auxiliary\Build\vcvarsall.bat" %VCVARSALL%
+     )
 )
 
 
@@ -31,7 +31,8 @@ call ..\qt-everywhere-src-%RELEASE%\configure.bat ^
  -nomake examples -nomake tests ^
  %QT_CONFIGURE_OPTIONS% ^
  -prefix %OUTNAME% ^
- %QT_PLATFORM%
+ %QT_PLATFORM% ^
+ %QT_HOST_PATH%
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while configuring! Exit code is %ERRORLEVEL%
@@ -41,11 +42,7 @@ IF NOT "%ERRORLEVEL%"=="0" (
 :compile
 title Compiling...
 echo Compiling...
-IF "%USE_JOM%"=="1" (
-   jom
-) ELSE (
-   nmake
-)
+cmake --build . --parallel
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while compiling! Exit code is %ERRORLEVEL%
@@ -55,11 +52,7 @@ IF NOT "%ERRORLEVEL%"=="0" (
 :install
 title Installing...
 echo Installing...
-if "%USE_JOM%"=="1" (
-    jom install
-) ELSE (
-    nmake install
-)
+ninja install
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while installing! Exit code is %ERRORLEVEL%
