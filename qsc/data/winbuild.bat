@@ -28,7 +28,6 @@ IF "%USE_VS%"=="1" (
 :configure
 call ..\qt-everywhere-src-%RELEASE%\configure.bat ^
  -opensource -confirm-license ^
- -nomake examples -nomake tests ^
  %QT_CONFIGURE_OPTIONS% ^
  -prefix %OUTNAME% ^
  %QT_PLATFORM% ^
