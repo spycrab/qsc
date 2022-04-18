@@ -26,12 +26,26 @@ IF "%USE_VS%"=="1" (
 
 
 :configure
+set DETERMINISM_COMPILE="/Brepro /experimental:deterministic"
+rem incremental:no only really needed for debug target, which defaults it on
+set DETERMINISM_LINK="/Brepro /INCREMENTAL:NO"
+
+rem msvc_obj_debug_info gets Qt's cmake to replace /Zi with /Z7
+
 call ..\qt-everywhere-src-%RELEASE%\configure.bat ^
  -opensource -confirm-license ^
  %QT_CONFIGURE_OPTIONS% ^
  -prefix %OUTNAME% ^
  %QT_PLATFORM% ^
- %QT_HOST_PATH%
+ %QT_HOST_PATH% ^
+ -- -DCMAKE_ASM_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_C_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_CXX_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_EXE_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_MODULE_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_SHARED_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_STATIC_LINKER_FLAGS="/Brepro" ^
+ -DFEATURE_msvc_obj_debug_info=ON
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while configuring! Exit code is %ERRORLEVEL%
