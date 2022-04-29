@@ -2,7 +2,10 @@
 __pycache__
 # Ignore directories created by the utility / build process
 dist
-jom
 archives
 qt-everywhere-*
 *.build
+CMakeFiles/
+bin/
+config.opt*
+config.tests/

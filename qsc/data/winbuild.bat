@@ -17,21 +17,35 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 IF "%USE_VS%"=="1" ( 
-	if "%VCVARSALL%"=="" (
-		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
-	) else (
-		call "%PROGRAMFILES(x86)%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\VC\Auxiliary\Build\vcvarsall.bat" %VCVARSALL%
-	)
+     if "%VCVARSALL%"=="" (
+          call "%PROGRAMFILES%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\Common7\Tools\VsDevCmd.bat"
+     ) else (
+          call "%PROGRAMFILES%\Microsoft Visual Studio\%VS_VERSION%\%VS_EDITION%\VC\Auxiliary\Build\vcvarsall.bat" %VCVARSALL%
+     )
 )
 
 
 :configure
+set DETERMINISM_COMPILE="/experimental:deterministic"
+rem incremental:no only really needed for debug target, which defaults it on
+set DETERMINISM_LINK="/experimental:deterministic /INCREMENTAL:NO"
+
+rem msvc_obj_debug_info gets Qt's cmake to replace /Zi with /Z7
+
 call ..\qt-everywhere-src-%RELEASE%\configure.bat ^
  -opensource -confirm-license ^
- -nomake examples -nomake tests ^
  %QT_CONFIGURE_OPTIONS% ^
  -prefix %OUTNAME% ^
- %QT_PLATFORM%
+ %QT_PLATFORM% ^
+ %QT_HOST_PATH% ^
+ -- -DCMAKE_ASM_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_C_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_CXX_FLAGS=%DETERMINISM_COMPILE% ^
+ -DCMAKE_EXE_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_MODULE_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_SHARED_LINKER_FLAGS=%DETERMINISM_LINK% ^
+ -DCMAKE_STATIC_LINKER_FLAGS="/experimental:deterministic" ^
+ -DFEATURE_msvc_obj_debug_info=ON
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while configuring! Exit code is %ERRORLEVEL%
@@ -41,11 +55,7 @@ IF NOT "%ERRORLEVEL%"=="0" (
 :compile
 title Compiling...
 echo Compiling...
-IF "%USE_JOM%"=="1" (
-   jom
-) ELSE (
-   nmake
-)
+cmake --build . --parallel
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while compiling! Exit code is %ERRORLEVEL%
@@ -55,11 +65,7 @@ IF NOT "%ERRORLEVEL%"=="0" (
 :install
 title Installing...
 echo Installing...
-if "%USE_JOM%"=="1" (
-    jom install
-) ELSE (
-    nmake install
-)
+ninja install
 
 IF NOT "%ERRORLEVEL%"=="0" (
      echo An error occured while installing! Exit code is %ERRORLEVEL%
