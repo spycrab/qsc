@@ -23,7 +23,7 @@ import tarfile
 import qsc
 
 def extract_release(release):
-    name = "qt-everywhere-src-{}".format(release)
+    name = "qt-everywhere-opensource-src-{}".format(release)
 
     tar_path = os.path.join("archives", name+".tar.xz")
     

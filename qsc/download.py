@@ -33,7 +33,7 @@ def download_file(url, path):
 
 def download_release(release):    
     url = source_url(release)
-    download_path = os.path.join("archives", "qt-everywhere-src-{}.tar.xz".format(release))
+    download_path = os.path.join("archives", "qt-everywhere-opensource-src-{}.tar.xz".format(release))
 
     print("Downloading Qt {}...".format(release), end="", flush=True)
     
