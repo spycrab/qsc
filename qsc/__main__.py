@@ -114,6 +114,10 @@ if __name__ == "__main__":
         os.putenv("VS_EDITION", compiler["edition"])
         os.putenv("VCVARSALL", compiler.get("vcvarsall", ""))
         os.putenv("USE_VS", "1")
+    elif compiler["name"] == "gcc":
+        if not qsc.is_linux():
+            print("Only supported on Linux!")
+            exit(1)
     else:
         print("Unknown compiler '{}'".format(compiler.name))
         exit(1)
@@ -172,6 +176,8 @@ if __name__ == "__main__":
     
     if qsc.is_windows():
         os.system(qsc.WINBUILD_PATH)
+    elif qsc.is_linux():
+        os.system(qsc.LINBUILD_PATH)
     else:
         print("Not supported yet, sorry :/")
         exit(1)

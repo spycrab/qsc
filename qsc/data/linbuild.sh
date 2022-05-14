@@ -1,5 +1,6 @@
+#!/bin/bash
 # QSC (Qt SDK Creator) - A tool for automatically downloading, building and stripping down Qt
-# Copyright (C) 2020 spycrab0
+# Copyright (C) 2020 OatmealDome
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,26 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+set -e
 
-"""Extracting archives and stuff"""
+../qt-everywhere-src-$RELEASE/configure \
+ -opensource -confirm-license \
+ -nomake examples -nomake tests \
+ $QT_CONFIGURE_OPTIONS \
+ -prefix $OUTNAME \
+ $QT_PLATFORM
 
-import os
-import tarfile
+make -j4
 
-import qsc
-
-def extract_release(release):
-    name = "qt-everywhere-opensource-src-{}".format(release)
-
-    tar_path = os.path.join("archives", name+".tar.xz")
-    
-    print("Extracting...", end="", flush=True)
-    
-    if qsc.USE_CACHE and os.path.isdir(name):
-        print("Cached")
-        return
-    
-    with tarfile.open(tar_path) as tar:
-        tar.extractall(".")
-
-    print("Done")
+make install
